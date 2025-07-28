@@ -1,0 +1,657 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Initialize Django Project Structure",
+        "description": "Initialize the Django project structure with the specified project layout, including creating the core project directory and the apps directory.",
+        "details": "1. Create the main project directory.\n2. Use `django-admin startproject Project` to create the initial project structure.\n3. Create the `apps` directory to house the modular applications.\n4. Create `__init__.py` files in each app directory to ensure they are recognized as Python packages.",
+        "testStrategy": "Verify the directory structure matches the PRD's specified layout. Check that `__init__.py` files exist in each app directory.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Install django-environ",
+            "description": "Install the `django-environ` package to manage environment variables in the Django project.",
+            "dependencies": [],
+            "details": "Use pip install django-environ to install the package. Add `import environ` to the top of settings.py.",
+            "status": "done",
+            "testStrategy": "Verify that the package is installed correctly by importing it in the Django shell."
+          },
+          {
+            "id": 2,
+            "title": "Configure INSTALLED_APPS",
+            "description": "Configure the `INSTALLED_APPS` setting in `settings.py` to include all necessary Django apps, including REST framework and any custom apps.",
+            "dependencies": [],
+            "details": "Open `settings.py` and add all required apps to the `INSTALLED_APPS` list. This includes 'rest_framework', 'rest_framework_simplejwt', and any custom apps created for the project (authentication, map, profile, jobs, activity, messaging, search, media, analytics).",
+            "status": "done",
+            "testStrategy": "Run `python manage.py check` to ensure that all listed apps are installed and configured correctly."
+          },
+          {
+            "id": 3,
+            "title": "Configure REST Framework Settings",
+            "description": "Configure Django REST framework settings, including authentication classes, permission classes, and pagination settings.",
+            "dependencies": [],
+            "details": "In `settings.py`, add a `REST_FRAMEWORK` dictionary. Configure `DEFAULT_AUTHENTICATION_CLASSES` to use JWT authentication (`rest_framework_simplejwt.authentication.JWTAuthentication`). Configure `DEFAULT_PERMISSION_CLASSES` as needed (e.g., `rest_framework.permissions.IsAuthenticated`). Set up pagination settings as required by the project.",
+            "status": "done",
+            "testStrategy": "Send a request to an API endpoint that requires authentication and verify that JWT authentication is working correctly. Test pagination by requesting a large dataset and verifying that the results are paginated."
+          },
+          {
+            "id": 4,
+            "title": "Set up JWT Authentication",
+            "description": "Set up JWT authentication with refresh token support using `djangorestframework-simplejwt`.",
+            "dependencies": [],
+            "details": "Install `djangorestframework-simplejwt` using pip. Configure `SIMPLE_JWT` settings in `settings.py` to customize token lifespan, refresh token lifespan, and other JWT-related settings. Include the necessary URLs for obtaining and refreshing tokens in `urls.py`.",
+            "status": "done",
+            "testStrategy": "Obtain a JWT token using the provided API endpoint. Use the token to authenticate a request to a protected endpoint. Refresh the token using the refresh token endpoint and verify that the new token is valid."
+          },
+          {
+            "id": 5,
+            "title": "Configure PostgreSQL Database Connection",
+            "description": "Configure the PostgreSQL database connection using environment variables.",
+            "dependencies": [
+              "1.1"
+            ],
+            "details": "Use `django-environ` to read database connection parameters from environment variables (e.g., `DATABASE_URL`). Configure the `DATABASES` setting in `settings.py` to use the PostgreSQL database engine and connection parameters. Ensure that the `psycopg2` package is installed.",
+            "status": "done",
+            "testStrategy": "Run `python manage.py migrate` to create the database schema. Verify that the database is created successfully and that Django can connect to it."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Configure Django Settings",
+        "description": "Configure the Django settings to include installed apps, REST framework settings, JWT authentication, and PostgreSQL database configuration.",
+        "details": "1. Install `django-environ` to manage environment variables.\n2. Configure `INSTALLED_APPS` in `settings.py` to include all the apps listed in the PRD.\n3. Configure Django REST framework settings, including authentication classes and pagination.\n4. Set up JWT authentication with refresh token support.\n5. Configure PostgreSQL database connection using environment variables.",
+        "testStrategy": "1. Ensure all apps are correctly listed in `INSTALLED_APPS`.\n2. Verify REST framework settings are correctly configured.\n3. Test JWT authentication flow, including refresh token functionality.\n4. Confirm successful connection to the PostgreSQL database.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Install and Configure django-environ",
+            "description": "Install the `django-environ` package and configure it to read environment variables in `settings.py`. This includes setting the `.env` file path.",
+            "dependencies": [],
+            "details": "Install `django-environ` using pip. Configure `settings.py` to read environment variables from a `.env` file.",
+            "status": "done",
+            "testStrategy": "Verify that environment variables are correctly loaded and accessible in Django settings."
+          },
+          {
+            "id": 2,
+            "title": "Configure INSTALLED_APPS",
+            "description": "Add all necessary applications to the `INSTALLED_APPS` list in `settings.py` based on the project requirements and PRD.",
+            "dependencies": [],
+            "details": "Add all required apps to the `INSTALLED_APPS` list in `settings.py`. Ensure correct spelling and order.",
+            "status": "done",
+            "testStrategy": "Ensure all apps are correctly listed in `INSTALLED_APPS` and that Django starts without errors related to missing apps."
+          },
+          {
+            "id": 3,
+            "title": "Configure Django REST Framework Settings",
+            "description": "Configure Django REST framework settings, including authentication classes, permission classes, and pagination settings in `settings.py`.",
+            "dependencies": [],
+            "details": "Set `DEFAULT_AUTHENTICATION_CLASSES`, `DEFAULT_PERMISSION_CLASSES`, and `DEFAULT_PAGINATION_CLASS` in `settings.py`.",
+            "status": "done",
+            "testStrategy": "Verify REST framework settings are correctly configured by testing API endpoints with different authentication and permission levels. Test pagination."
+          },
+          {
+            "id": 4,
+            "title": "Set Up JWT Authentication with Refresh Tokens",
+            "description": "Implement JWT authentication using a suitable package (e.g., `djangorestframework-simplejwt`) and configure refresh token support.",
+            "dependencies": [],
+            "details": "Install `djangorestframework-simplejwt`. Configure JWT settings in `settings.py`, including refresh token settings.",
+            "status": "done",
+            "testStrategy": "Test JWT authentication flow, including login, token refresh, and access to protected endpoints. Verify refresh token functionality."
+          },
+          {
+            "id": 5,
+            "title": "Configure PostgreSQL Database Connection",
+            "description": "Configure the PostgreSQL database connection using environment variables for database name, user, password, host, and port.",
+            "dependencies": [],
+            "details": "Set `DATABASES` settings in `settings.py` using environment variables for PostgreSQL connection details.",
+            "status": "done",
+            "testStrategy": "Confirm successful connection to the PostgreSQL database by running migrations and querying the database."
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Define Database Models",
+        "description": "Define the database models for each module (authentication, map, profile, jobs, activity, messaging, search, media, analytics) based on the requirements.",
+        "details": "1. Create `models.py` in each app directory.\n2. Define Django models for each entity, including fields, relationships, and indexes.\n3. Implement B-tree indexes on foreign keys and status fields.\n4. Implement GIN index for JSON contact data and full-text search on job descriptions.",
+        "testStrategy": "1. Inspect the generated database schema to ensure all models and fields are created correctly.\n2. Verify the presence of B-tree indexes on foreign keys and status fields.\n3. Confirm the creation of GIN index for JSON contact data and full-text search.",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create models.py in each app directory",
+            "description": "Create a `models.py` file within each application directory (authentication, map, profile, jobs, activity, messaging, search, media, analytics) to house the database models.",
+            "dependencies": [],
+            "details": "Create `models.py` in each app directory.",
+            "status": "done",
+            "testStrategy": "Verify that a `models.py` file exists in each app directory."
+          },
+          {
+            "id": 2,
+            "title": "Define Django models for each entity",
+            "description": "Define Django models within each `models.py` file, representing the entities for each module. Include appropriate fields, relationships (e.g., ForeignKey, OneToOneField, ManyToManyField), and indexes.",
+            "dependencies": [],
+            "details": "Define Django models for each entity, including fields, relationships, and indexes.",
+            "status": "done",
+            "testStrategy": "Inspect the generated database schema to ensure all models and fields are created correctly."
+          },
+          {
+            "id": 3,
+            "title": "Implement B-tree indexes on foreign keys and status fields",
+            "description": "Implement B-tree indexes on all foreign key fields and status fields within the defined models to optimize query performance.",
+            "dependencies": [],
+            "details": "Implement B-tree indexes on foreign keys and status fields.",
+            "status": "done",
+            "testStrategy": "Verify the presence of B-tree indexes on foreign keys and status fields."
+          },
+          {
+            "id": 4,
+            "title": "Implement GIN index for JSON contact data",
+            "description": "Implement a GIN index for the JSON contact data field (if applicable) to enable efficient querying of data within the JSON structure.",
+            "dependencies": [],
+            "details": "Implement GIN index for JSON contact data and full-text search on job descriptions.",
+            "status": "done",
+            "testStrategy": "Confirm the creation of GIN index for JSON contact data."
+          },
+          {
+            "id": 5,
+            "title": "Implement GIN index for full-text search on job descriptions",
+            "description": "Implement a GIN index for full-text search capabilities on the job descriptions field within the 'jobs' module.",
+            "dependencies": [],
+            "details": "Implement GIN index for JSON contact data and full-text search on job descriptions.",
+            "status": "done",
+            "testStrategy": "Confirm the creation of GIN index for full-text search."
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Implement Serializers",
+        "description": "Implement serializers for each module to handle data serialization and deserialization for API endpoints.",
+        "details": "1. Create `serializers.py` in each app directory.\n2. Define Django REST framework serializers for each model.\n3. Implement validation logic in serializers to enforce data integrity.\n4. Define strict permissions in serializers to control access to fields.",
+        "testStrategy": "1. Test serialization and deserialization of model instances using the serializers.\n2. Verify validation logic in serializers.\n3. Ensure permissions are correctly enforced by the serializers.",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create serializers.py in each app directory",
+            "description": "Create a `serializers.py` file within each application directory of the Django project to house the serializers.",
+            "dependencies": [],
+            "details": "Create `serializers.py` in each app directory.",
+            "status": "done",
+            "testStrategy": "Verify that the `serializers.py` file exists in each app directory."
+          },
+          {
+            "id": 2,
+            "title": "Define Django REST framework serializers for each model",
+            "description": "Define serializers for each Django model using Django REST framework's `Serializer` or `ModelSerializer` classes.",
+            "dependencies": [],
+            "details": "Define Django REST framework serializers for each model.",
+            "status": "done",
+            "testStrategy": "Test serialization and deserialization of model instances using the serializers."
+          },
+          {
+            "id": 3,
+            "title": "Implement validation logic in serializers",
+            "description": "Implement custom validation logic within the serializers to enforce data integrity constraints beyond the model's built-in validations.",
+            "dependencies": [],
+            "details": "Implement validation logic in serializers to enforce data integrity.",
+            "status": "done",
+            "testStrategy": "Verify validation logic in serializers."
+          },
+          {
+            "id": 4,
+            "title": "Define strict permissions in serializers to control field access",
+            "description": "Implement permission checks within the serializers to control which fields are accessible based on the user's role or permissions.",
+            "dependencies": [],
+            "details": "Define strict permissions in serializers to control access to fields.",
+            "status": "done",
+            "testStrategy": "Ensure permissions are correctly enforced by the serializers."
+          },
+          {
+            "id": 5,
+            "title": "Integrate serializers with API views",
+            "description": "Integrate the created serializers into the API views to handle data serialization and deserialization for API endpoints.",
+            "dependencies": [],
+            "details": "Use serializers in API views to serialize response data and deserialize request data.",
+            "status": "done",
+            "testStrategy": "Test each API endpoint to ensure it returns the correct data using the serializers."
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Implement API Views",
+        "description": "Implement API views for each module using Django REST framework, including authentication, map, profile, jobs, activity, messaging, search, navigation, media, and analytics.",
+        "details": "1. Create `views.py` in each app directory.\n2. Define API views for each endpoint using Django REST framework.\n3. Implement authentication and permission checks in views.\n4. Implement pagination and filtering for list views using Django-Filters.",
+        "testStrategy": "1. Test each API endpoint to ensure it returns the correct data.\n2. Verify authentication and permission checks.\n3. Test pagination and filtering functionality.",
+        "priority": "high",
+        "dependencies": [
+          4
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Authentication and Permission Views",
+            "description": "Implement API views for authentication and permission-related endpoints, including login, registration, and user profile management.",
+            "dependencies": [],
+            "details": "Create views for user authentication (login, registration), password management (reset, change), and profile management (view, update). Integrate with JWT authentication.",
+            "status": "done",
+            "testStrategy": "Test authentication endpoints with valid and invalid credentials. Verify user registration and profile management functionality. Ensure proper permission checks."
+          },
+          {
+            "id": 2,
+            "title": "Implement Core Module API Views",
+            "description": "Implement API views for core modules such as map, jobs, activity, messaging, search, and navigation.",
+            "dependencies": [],
+            "details": "Create views for each core module, defining endpoints for listing, creating, updating, and deleting resources. Implement pagination and filtering where applicable.",
+            "status": "done",
+            "testStrategy": "Test each API endpoint to ensure it returns the correct data. Verify pagination and filtering functionality."
+          },
+          {
+            "id": 3,
+            "title": "Implement Media and Analytics API Views",
+            "description": "Implement API views for media management and analytics reporting.",
+            "dependencies": [],
+            "details": "Create views for uploading, retrieving, and managing media files. Implement views for generating and retrieving analytics reports.",
+            "status": "done",
+            "testStrategy": "Test media upload and retrieval functionality. Verify analytics report generation and accuracy."
+          },
+          {
+            "id": 4,
+            "title": "Implement Pagination and Filtering",
+            "description": "Implement pagination and filtering for list views using Django-Filters.",
+            "dependencies": [],
+            "details": "Integrate Django-Filters into list views to enable filtering based on various criteria. Implement pagination to handle large datasets efficiently.",
+            "status": "done",
+            "testStrategy": "Test pagination by requesting different pages and verifying the correct data is returned. Test filtering by applying different filters and verifying the results."
+          },
+          {
+            "id": 5,
+            "title": "Secure API Views",
+            "description": "Implement security best practices in API views, including rate limiting and strict permissions.",
+            "dependencies": [],
+            "details": "Apply rate limiting to sensitive endpoints (e.g., login). Enforce strict permissions in views to control access to data based on user roles and permissions.",
+            "status": "done",
+            "testStrategy": "Test rate limiting by making multiple requests in a short period. Verify that permissions are correctly enforced in views."
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Configure URL Routing",
+        "description": "Configure URL routing for each module, including project-level URL configuration and app-level URL configuration.",
+        "details": "1. Create `urls.py` in each app directory.\n2. Define URL patterns for each API endpoint in the app-level `urls.py`.\n3. Include app-level URL configurations in the project-level `urls.py` using `path('api/v1/<module>/', include('apps.<module>.urls'))`.",
+        "testStrategy": "1. Verify that all API endpoints are accessible through the configured URLs.\n2. Ensure that URL patterns are correctly mapped to the corresponding views.",
+        "priority": "high",
+        "dependencies": [
+          5
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create `urls.py` in Authentication App",
+            "description": "Create `urls.py` file in the authentication app directory to define URL patterns for authentication-related API endpoints.",
+            "dependencies": [],
+            "details": "Create a `urls.py` file within the `apps/authentication` directory. This file will contain the URL patterns specific to the authentication module.",
+            "status": "done",
+            "testStrategy": "Verify that the `urls.py` file exists in the `apps/authentication` directory."
+          },
+          {
+            "id": 2,
+            "title": "Define URL Patterns for Authentication API Endpoints",
+            "description": "Define URL patterns for authentication API endpoints (e.g., login, register, password reset) in the authentication app's `urls.py`.",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Within the `apps/authentication/urls.py` file, define URL patterns for each authentication-related API endpoint, mapping them to the corresponding views. Use Django's `path()` function to define the URL patterns.",
+            "status": "done",
+            "testStrategy": "Test each authentication API endpoint to ensure it is accessible through the configured URL and that the URL pattern is correctly mapped to the corresponding view."
+          },
+          {
+            "id": 3,
+            "title": "Create `urls.py` in Other App Modules",
+            "description": "Create `urls.py` files in each of the remaining app directories (map, profile, jobs, activity, messaging, search, navigation, media, and analytics).",
+            "dependencies": [],
+            "details": "Create a `urls.py` file within each app directory (e.g., `apps/map`, `apps/profile`, etc.). These files will contain the URL patterns specific to each module.",
+            "status": "done",
+            "testStrategy": "Verify that the `urls.py` file exists in each app directory."
+          },
+          {
+            "id": 4,
+            "title": "Define URL Patterns for API Endpoints in Other App Modules",
+            "description": "Define URL patterns for API endpoints in each of the remaining app modules' `urls.py` files, mapping them to their respective views.",
+            "dependencies": [
+              "6.3"
+            ],
+            "details": "Within each app's `urls.py` file, define URL patterns for each API endpoint, mapping them to the corresponding views. Use Django's `path()` function to define the URL patterns.",
+            "status": "done",
+            "testStrategy": "Test each API endpoint in each module to ensure it is accessible through the configured URL and that the URL pattern is correctly mapped to the corresponding view."
+          },
+          {
+            "id": 5,
+            "title": "Include App-Level URLs in Project-Level `urls.py`",
+            "description": "Include the app-level URL configurations in the project-level `urls.py` using `path('api/v1/<module>/', include('apps.<module>.urls'))` for each module.",
+            "dependencies": [
+              "6.2",
+              "6.4"
+            ],
+            "details": "In the project-level `urls.py` file, use the `path()` function with the `include()` function to include the URL configurations from each app's `urls.py` file. The path should follow the pattern `api/v1/<module>/`, where `<module>` is the name of the app (e.g., `api/v1/authentication/`, `api/v1/map/`, etc.).",
+            "status": "done",
+            "testStrategy": "Verify that all API endpoints are accessible through the configured URLs in the project-level `urls.py`. Ensure that the URL patterns are correctly mapped to the corresponding views in each app."
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Implement Authentication Endpoints",
+        "description": "Implement authentication endpoints (login, register, password reset, logout, token refresh) using JWT authentication.",
+        "details": "1. Implement `login` view to authenticate users and return JWT tokens.\n2. Implement `register` view to create new user accounts.\n3. Implement `password-reset` and `password-reset/confirm` views to handle password reset functionality.\n4. Implement `logout` view to invalidate JWT tokens.\n5. Implement `token/refresh` view to refresh JWT tokens.",
+        "testStrategy": "1. Test the `login` endpoint with valid and invalid credentials.\n2. Test the `register` endpoint with valid and invalid data.\n3. Test the password reset flow.\n4. Test the `logout` endpoint.\n5. Test the token refresh functionality.",
+        "priority": "high",
+        "dependencies": [
+          2,
+          5
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Login Endpoint",
+            "description": "Implement the `login` view to authenticate users using username/password and return JWT tokens upon successful authentication.",
+            "dependencies": [],
+            "details": "Implement the `login` view using Django REST framework. Authenticate users against the database. Generate JWT tokens (access and refresh) upon successful authentication. Return the tokens in the response.",
+            "status": "done",
+            "testStrategy": "Test the `login` endpoint with valid and invalid credentials. Verify that JWT tokens are returned upon successful authentication and that appropriate error messages are returned for invalid credentials."
+          },
+          {
+            "id": 2,
+            "title": "Implement Register Endpoint",
+            "description": "Implement the `register` view to create new user accounts.",
+            "dependencies": [],
+            "details": "Implement the `register` view using Django REST framework. Validate user input (e.g., email, password). Create a new user account in the database. Hash the password before saving it. Return a success message or user data upon successful registration.",
+            "status": "done",
+            "testStrategy": "Test the `register` endpoint with valid and invalid data. Verify that a new user account is created in the database upon successful registration and that appropriate error messages are returned for invalid data."
+          },
+          {
+            "id": 3,
+            "title": "Implement Password Reset Endpoints",
+            "description": "Implement `password-reset` and `password-reset/confirm` views to handle password reset functionality.",
+            "dependencies": [],
+            "details": "Implement the `password-reset` view to initiate the password reset process. Send a password reset email to the user's email address. Implement the `password-reset/confirm` view to allow the user to reset their password. Validate the password reset token. Update the user's password in the database.",
+            "status": "done",
+            "testStrategy": "Test the password reset flow. Verify that a password reset email is sent to the user's email address. Verify that the user can reset their password using the password reset token."
+          },
+          {
+            "id": 4,
+            "title": "Implement Logout Endpoint",
+            "description": "Implement the `logout` view to invalidate JWT tokens.",
+            "dependencies": [],
+            "details": "Implement the `logout` view using Django REST framework. Invalidate the JWT tokens (access and refresh) associated with the user. This can be done by adding the tokens to a blacklist or revoking them in some other way.",
+            "status": "done",
+            "testStrategy": "Test the `logout` endpoint. Verify that the JWT tokens are invalidated upon logout and that the user is no longer able to access protected resources using the invalidated tokens."
+          },
+          {
+            "id": 5,
+            "title": "Implement Token Refresh Endpoint",
+            "description": "Implement the `token/refresh` view to refresh JWT tokens.",
+            "dependencies": [],
+            "details": "Implement the `token/refresh` view using Django REST framework. Validate the refresh token. Generate new access and refresh tokens. Return the new tokens in the response.",
+            "status": "done",
+            "testStrategy": "Test the token refresh functionality. Verify that new access and refresh tokens are generated upon successful refresh and that the old tokens are invalidated."
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Implement Caching with Redis",
+        "description": "Implement caching using Redis for frequent GET requests, such as map jobs, search suggestions, and menu items.",
+        "details": "1. Install `django-redis`.\n2. Configure Redis connection settings in `settings.py`.\n3. Implement caching decorators or middleware for relevant API views.\n4. Cache map jobs, search suggestions, and menu items.",
+        "testStrategy": "1. Verify that data is being cached in Redis.\n2. Measure the performance improvement of cached endpoints compared to uncached endpoints.\n3. Ensure that cache invalidation is working correctly.",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          5
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Install and Configure django-redis",
+            "description": "Install the `django-redis` package and configure the Redis connection settings in `settings.py`.",
+            "dependencies": [],
+            "details": "Install `django-redis` using pip. Configure the `CACHES` setting in `settings.py` to point to the Redis server.",
+            "status": "done",
+            "testStrategy": "Verify that Django can connect to the Redis server by attempting to store and retrieve a simple value."
+          },
+          {
+            "id": 2,
+            "title": "Implement Caching Decorators for Map Jobs",
+            "description": "Implement caching decorators for the API views that handle map jobs.",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Use the `cache_page` decorator or a custom caching decorator to cache the output of the map jobs API views. Set an appropriate cache timeout.",
+            "status": "done",
+            "testStrategy": "Measure the response time of the map jobs API endpoint with and without caching. Verify that the cached data is being served from Redis."
+          },
+          {
+            "id": 3,
+            "title": "Implement Caching for Search Suggestions",
+            "description": "Implement caching for the API views that provide search suggestions.",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Use the `cache_page` decorator or a custom caching decorator to cache the output of the search suggestions API views. Consider using a shorter cache timeout for search suggestions.",
+            "status": "done",
+            "testStrategy": "Measure the response time of the search suggestions API endpoint with and without caching. Verify that the cached data is being served from Redis."
+          },
+          {
+            "id": 4,
+            "title": "Implement Caching for Menu Items",
+            "description": "Implement caching for the API views that retrieve menu items.",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Use the `cache_page` decorator or a custom caching decorator to cache the output of the menu items API views. Set an appropriate cache timeout based on how frequently the menu changes.",
+            "status": "done",
+            "testStrategy": "Measure the response time of the menu items API endpoint with and without caching. Verify that the cached data is being served from Redis."
+          },
+          {
+            "id": 5,
+            "title": "Implement Cache Invalidation",
+            "description": "Implement cache invalidation logic to clear the cache when the underlying data changes for map jobs, search suggestions, or menu items.",
+            "dependencies": [
+              "8.2",
+              "8.3",
+              "8.4"
+            ],
+            "details": "Use signals or other mechanisms to trigger cache invalidation when the data for map jobs, search suggestions, or menu items is updated. Implement specific cache keys for each cached resource.",
+            "status": "done",
+            "testStrategy": "Update the data for map jobs, search suggestions, and menu items. Verify that the cache is invalidated and that the next request retrieves the updated data."
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Implement Asynchronous Tasks with Celery",
+        "description": "Implement asynchronous tasks using Celery for email notifications (password reset) and analytics aggregation.",
+        "details": "1. Install Celery and Redis (as a Celery broker).\n2. Configure Celery settings in `settings.py`.\n3. Define Celery tasks for email notifications and analytics aggregation.\n4. Trigger Celery tasks from relevant API views.",
+        "testStrategy": "1. Verify that Celery tasks are being executed asynchronously.\n2. Check that email notifications are being sent correctly.\n3. Ensure that analytics data is being aggregated correctly.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          5
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Install Celery and Redis",
+            "description": "Install Celery and Redis (as a Celery broker) using pip.",
+            "dependencies": [],
+            "details": "Use `pip install celery redis` to install the necessary packages.",
+            "status": "done",
+            "testStrategy": "Verify that Celery and Redis are installed correctly by checking their versions."
+          },
+          {
+            "id": 2,
+            "title": "Configure Celery Settings",
+            "description": "Configure Celery settings in `settings.py` to connect to the Redis broker and set up task serialization.",
+            "dependencies": [],
+            "details": "Define `CELERY_BROKER_URL`, `CELERY_RESULT_BACKEND`, and `CELERY_ACCEPT_CONTENT` in `settings.py`.",
+            "status": "done",
+            "testStrategy": "Check that Celery can connect to Redis and that tasks are being serialized correctly."
+          },
+          {
+            "id": 3,
+            "title": "Define Email Notification Task",
+            "description": "Define a Celery task for sending email notifications (password reset).",
+            "dependencies": [],
+            "details": "Create a function decorated with `@shared_task` that sends an email using Django's `send_mail` function.",
+            "status": "done",
+            "testStrategy": "Verify that the email notification task sends emails correctly."
+          },
+          {
+            "id": 4,
+            "title": "Define Analytics Aggregation Task",
+            "description": "Define a Celery task for aggregating analytics data.",
+            "dependencies": [],
+            "details": "Create a function decorated with `@shared_task` that aggregates analytics data from the database.",
+            "status": "done",
+            "testStrategy": "Ensure that the analytics aggregation task aggregates data correctly."
+          },
+          {
+            "id": 5,
+            "title": "Trigger Celery Tasks from API Views",
+            "description": "Trigger the Celery tasks for email notifications and analytics aggregation from the relevant API views.",
+            "dependencies": [
+              "9.3",
+              "9.4"
+            ],
+            "details": "Use the `.delay()` method on the Celery tasks to trigger them asynchronously from the API views.",
+            "status": "done",
+            "testStrategy": "Verify that the Celery tasks are being triggered asynchronously from the API views."
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Implement Security Best Practices",
+        "description": "Implement security best practices, including HTTPS, JWT with rotation, rate limiting on authentication endpoints, and strict permissions in views and serializers.",
+        "details": "1. Configure HTTPS for the Django project.\n2. Implement JWT rotation to enhance security.\n3. Implement rate limiting on authentication endpoints using Django REST framework's throttling.\n4. Enforce strict permissions in views and serializers to control access to data.",
+        "testStrategy": "1. Verify that HTTPS is enabled.\n2. Test JWT rotation functionality.\n3. Test rate limiting on authentication endpoints.\n4. Ensure that permissions are correctly enforced in views and serializers.",
+        "priority": "high",
+        "dependencies": [
+          5
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Configure HTTPS",
+            "description": "Configure HTTPS for the Django project to ensure secure communication.",
+            "dependencies": [],
+            "details": "Configure HTTPS for the Django project using TLS certificates. This may involve obtaining a certificate from a Certificate Authority (CA) or using Let's Encrypt. Configure the web server (e.g., Nginx, Apache) to use the certificate and redirect HTTP traffic to HTTPS.",
+            "status": "done",
+            "testStrategy": "Verify that the website is accessible via HTTPS and that the browser displays a secure connection indicator. Test with different browsers and devices."
+          },
+          {
+            "id": 2,
+            "title": "Implement JWT Rotation",
+            "description": "Implement JWT rotation to enhance security by periodically refreshing tokens.",
+            "dependencies": [],
+            "details": "Implement JWT rotation by issuing a refresh token along with the access token. The refresh token can be used to obtain a new access token when the current one expires. Store refresh tokens securely (e.g., in a database) and implement logic to invalidate them when necessary (e.g., on logout).",
+            "status": "done",
+            "testStrategy": "Test the JWT rotation functionality by verifying that refresh tokens can be used to obtain new access tokens and that old access tokens are invalidated after rotation."
+          },
+          {
+            "id": 3,
+            "title": "Implement Rate Limiting on Authentication Endpoints",
+            "description": "Implement rate limiting on authentication endpoints to prevent brute-force attacks.",
+            "dependencies": [],
+            "details": "Implement rate limiting on authentication endpoints (e.g., login, register, password reset) using Django REST framework's throttling. Configure appropriate rate limits based on the expected usage patterns and security considerations. Use different rate limits for different endpoints if necessary.",
+            "status": "done",
+            "testStrategy": "Test the rate limiting functionality by sending multiple requests to the authentication endpoints and verifying that the rate limits are enforced. Test with different IP addresses and user accounts."
+          },
+          {
+            "id": 4,
+            "title": "Enforce Strict Permissions in Views",
+            "description": "Enforce strict permissions in API views to control access to data based on user roles and permissions.",
+            "dependencies": [],
+            "details": "Enforce strict permissions in API views using Django REST framework's permission classes. Define custom permission classes if necessary to implement fine-grained access control. Ensure that only authorized users can access specific endpoints and perform specific actions.",
+            "status": "done",
+            "testStrategy": "Test the permission checks in API views by sending requests with different user accounts and verifying that the correct permissions are enforced. Test with both authenticated and unauthenticated users."
+          },
+          {
+            "id": 5,
+            "title": "Enforce Strict Permissions in Serializers",
+            "description": "Enforce strict permissions in serializers to control access to fields and prevent data leakage.",
+            "dependencies": [],
+            "details": "Enforce strict permissions in serializers by using `read_only_fields` and `write_only_fields` to control which fields can be read and written by different users. Define custom serializer fields if necessary to implement more complex permission logic. Ensure that sensitive data is not exposed to unauthorized users.",
+            "status": "done",
+            "testStrategy": "Test the permission checks in serializers by serializing and deserializing data with different user accounts and verifying that the correct fields are accessible. Test with both authenticated and unauthenticated users."
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Add Swagger/OpenAPI documentation to expose and test all APIs via a Swagger UI.",
+        "description": "Install and configure drf-yasg (or drf-spectacular); annotate all API views so they appear in the OpenAPI schema and expose a Swagger UI.",
+        "details": "1. Install drf-yasg (or drf-spectacular) via pip.\n2. Add schema view and Swagger UI URLs in the project and app urls.py.\n3. Annotate views and serializers with swagger_auto_schema or relevant decorators.\n4. Write a smoke test to fetch and validate the generated schema endpoint.",
+        "testStrategy": "Request /swagger.json or /schema/ and verify JSON schema. Measure coverage of API endpoints.",
+        "priority": "medium",
+        "dependencies": [6],
+        "status": "done",
+        "subtasks": [
+          {"id": 1, "title": "Install drf-yasg or drf-spectacular", "description": "Add drf-yasg (or drf-spectacular) to requirements.txt and install it.", "status": "done", "dependencies": []},
+          {"id": 2, "title": "Configure OpenAPI schema & Swagger UI endpoint", "description": "Add OpenAPI schema and Swagger UI to urls.py.", "status": "done", "dependencies": []},
+          {"id": 3, "title": "Annotate views/serializers for schema", "description": "Use decorators or docstrings to include all endpoints in the schema.", "status": "done", "dependencies": []},
+          {"id": 4, "title": "Smoke-test generated schema", "description": "Write a test to fetch and validate the schema JSON endpoint.", "status": "done", "dependencies": []}
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Enhance Django Admin panel: register and customize all models for full CRUD.",
+        "description": "Register all models in Django admin and customize list displays, filters, inlines, readonly fields, and permissions",
+        "details": "1. Register each model in admin.py.\n2. Add list_display, list_filter, search_fields.\n3. Add inlines for related models.\n4. Lock down sensitive fields via readonly_fields and custom has_module_permission.\n5. Write admin integration tests for CRUD operations.",
+        "testStrategy": "Perform CRUD through the admin site in automated tests. Verify that sensitive data is protected.",
+        "priority": "medium",
+        "dependencies": [3],
+        "status": "done",
+        "subtasks": [
+          {"id": 1, "title": "Register every model in admin.py", "description": "Import and register all models in each app's admin.py", "status": "done", "dependencies": []},
+          {"id": 2, "title": "Customize list displays, filters, search", "description": "Add list_display, list_filter, search_fields to admin classes", "status": "done", "dependencies": []},
+          {"id": 3, "title": "Add inlines for related models", "description": "Use TabularInline/StackedInline for related objects (e.g. Job→JobApplication)", "status": "done", "dependencies": []},
+          {"id": 4, "title": "Lock down sensitive fields", "description": "Use readonly_fields and override permissions to protect sensitive data", "status": "done", "dependencies": []},
+          {"id": 5, "title": "Write admin integration tests", "description": "Add tests performing CRUD operations via the admin interface", "status": "done", "dependencies": []}
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-24T06:47:24.443Z",
+      "updated": "2025-07-24T09:03:51.447Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

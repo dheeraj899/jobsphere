@@ -1,0 +1,62 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block extrahead %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-qBx4N2wowKIIVR3eOcq1+ka9Y9L6dQ0sG9SxY+eZy1MZG+XcelhPbiPI2PbjfN1T" crossorigin="anonymous">
+<style>
+.dashboard-card { padding: 1rem; border-radius: 0.5rem; }
+.dashboard-title { margin-bottom: 2rem; }
+</style>
+{% endblock %}
+
+{% block title %}{% trans "Dashboard" %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <h1 class="dashboard-title">{% trans "Admin Dashboard" %}</h1>
+  <div class="row gy-4">
+    <div class="col-sm-6 col-md-3">
+      <div class="dashboard-card bg-primary text-white text-center shadow-sm">
+        <div class="h6">{% trans "Total Users" %}</div>
+        <div class="display-6">{{ stats.total_users }}</div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="dashboard-card bg-info text-white text-center shadow-sm">
+        <div class="h6">{% trans "Total Profiles" %}</div>
+        <div class="display-6">{{ stats.total_profiles }}</div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="dashboard-card bg-success text-white text-center shadow-sm">
+        <div class="h6">{% trans "Total Experiences" %}</div>
+        <div class="display-6">{{ stats.total_experiences }}</div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="dashboard-card bg-warning text-white text-center shadow-sm">
+        <div class="h6">{% trans "Total Jobs" %}</div>
+        <div class="display-6">{{ stats.total_jobs }}</div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="dashboard-card bg-danger text-white text-center shadow-sm">
+        <div class="h6">{% trans "Total Applications" %}</div>
+        <div class="display-6">{{ stats.total_applications }}</div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="dashboard-card bg-secondary text-white text-center shadow-sm">
+        <div class="h6">{% trans "Total Notifications" %}</div>
+        <div class="display-6">{{ stats.total_notifications }}</div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="dashboard-card bg-dark text-white text-center shadow-sm">
+        <div class="h6">{% trans "Total Searches" %}</div>
+        <div class="display-6">{{ stats.total_searches }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 

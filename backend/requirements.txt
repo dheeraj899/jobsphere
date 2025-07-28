@@ -1,0 +1,34 @@
+# Core Django
+Django
+djangorestframework
+
+# Environment management
+django-environ
+
+# Database (PostgreSQL)
+psycopg2-binary
+
+# JWT Authentication
+djangorestframework-simplejwt
+
+# Caching
+redis
+django-redis
+
+# Async Tasks
+celery
+django-celery-beat
+
+# Filtering and Pagination
+django-filter
+
+# CORS
+django-cors-headers
+
+# Development
+python-decouple
+drf-yasg
+# Image handling
+Pillow
+# Data seeding
+Faker
