@@ -18,7 +18,7 @@ from datetime import timedelta
 env = environ.Env(
     # Set casting and default values
     DEBUG=(bool, True),
-    ALLOWED_HOSTS=(list, ['localhost', '127.0.0.1', 'jobsphere-695w.onrender.com']),
+    ALLOWED_HOSTS=(list, ['localhost', '127.0.0.1']),
     SECRET_KEY=(str, 'django-insecure-)vl1#!y6@p$eqo5s1o80e1a(z6j0%70qi2enmh(6gle00+(a%d'),
     USE_SQLITE=(bool, False),
     SQLITE_DB_NAME=(str, 'db.sqlite3'),
