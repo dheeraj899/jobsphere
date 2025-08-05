@@ -32,3 +32,4 @@ drf-yasg
 Pillow
 # Data seeding
 Faker
+gunicorn
